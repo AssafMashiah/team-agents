@@ -1,0 +1,142 @@
+# =============================================================================
+# OpenClaw Team Agents — Local Development Stack
+# =============================================================================
+# Services:
+#   openclaw-gateway  — OpenClaw AI gateway + Control UI (port 18789)
+#   openclaw-socat    — TCP bridge proxy (port 18790)
+#   ollama            — Local Llama / LLM server (port 11434)
+#   signal-bridge     — Signal REST API bridge (optional: --profile signal)
+#
+# Quick start:
+#   bash scripts/setup.sh                        # first time
+#   docker compose up -d                         # start everything
+#   docker compose --profile signal up -d        # also start Signal
+# =============================================================================
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # OpenClaw Gateway
+  # Control UI: http://localhost:18789?token=<OPENCLAW_GATEWAY_TOKEN>
+  # ---------------------------------------------------------------------------
+  openclaw-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: team-agents:latest
+    container_name: openclaw-gateway
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    volumes:
+      # Persistent config + memory (survives container recreation)
+      - ${OPENCLAW_CONFIG_DIR:-~/.openclaw}:/home/node/.openclaw
+      # Agent working directory
+      - ${OPENCLAW_WORKSPACE_DIR:-./workspace}:/home/node/.openclaw/workspace
+      # Live-mount skills from this repo — edit without rebuilding
+      - ./skills:/home/node/.openclaw/skills
+      # Live-mount agent configs from this repo
+      - ./agents:/home/node/.openclaw/agents
+    ports:
+      - "${OPENCLAW_PORT:-18789}:18789"
+      - "${OPENCLAW_BRIDGE_PORT:-18790}:18790"
+    environment:
+      NODE_ENV: production
+      OPENCLAW_SKIP_SERVICE_CHECK: "true"
+      # AI providers
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      # Gateway auth
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+      # Discord
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN:-}
+      DISCORD_GUILD_ID: ${DISCORD_GUILD_ID:-}
+      DISCORD_CHANNEL_ALLOWLIST: ${DISCORD_CHANNEL_ALLOWLIST:-}
+      # Ollama — points to the sibling service
+      OLLAMA_HOST: http://ollama:11434
+      # Signal — points to the sibling service (when signal profile is active)
+      SIGNAL_API_URL: http://signal-bridge:8080
+      SIGNAL_PHONE_NUMBER: ${SIGNAL_PHONE_NUMBER:-}
+    command: ["gateway"]
+    depends_on:
+      ollama:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:18789/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # ---------------------------------------------------------------------------
+  # Socat TCP Bridge — required for some OpenClaw networking features
+  # ---------------------------------------------------------------------------
+  openclaw-socat:
+    image: alpine/socat
+    container_name: openclaw-socat
+    restart: unless-stopped
+    network_mode: "service:openclaw-gateway"
+    command: "TCP-LISTEN:18790,fork,bind=0.0.0.0,reuseaddr TCP:127.0.0.1:18789"
+    depends_on:
+      - openclaw-gateway
+
+  # ---------------------------------------------------------------------------
+  # Ollama — Local LLM server
+  # Pull a model: bash scripts/pull-model.sh
+  # API docs:    http://localhost:11434
+  # ---------------------------------------------------------------------------
+  ollama:
+    image: ollama/ollama:latest
+    container_name: openclaw-ollama
+    restart: unless-stopped
+    volumes:
+      - ollama-models:/root/.ollama
+    ports:
+      - "${OLLAMA_PORT:-11434}:11434"
+    environment:
+      OLLAMA_ORIGINS: "*"
+    # GPU support — uncomment if you have an NVIDIA GPU with nvidia-container-toolkit
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list || exit 1"]
+      interval: 30s
+      timeout: 15s
+      retries: 5
+      start_period: 30s
+
+  # ---------------------------------------------------------------------------
+  # Signal Bridge — signal-cli REST API wrapper
+  # Start with: docker compose --profile signal up -d
+  # Register:   bash scripts/setup-signal.sh
+  # ---------------------------------------------------------------------------
+  signal-bridge:
+    image: bbernhard/signal-cli-rest-api:latest
+    container_name: openclaw-signal
+    restart: unless-stopped
+    profiles:
+      - signal
+    volumes:
+      - signal-data:/home/.local/share/signal-cli
+    ports:
+      - "${SIGNAL_API_PORT:-8080}:8080"
+    environment:
+      MODE: native
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/v1/about || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  ollama-models:
+    name: openclaw-ollama-models
+  signal-data:
+    name: openclaw-signal-data

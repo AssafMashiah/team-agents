@@ -1,0 +1,72 @@
+# =============================================================================
+# OpenClaw Team Agents — Cloudflare / Remote Deployment Stack
+# =============================================================================
+# Uses the pre-built image from GitHub Container Registry.
+# A Cloudflare Tunnel container provides secure public access — no open ports.
+#
+# Usage:
+#   docker compose -f docker-compose.cloudflare.yml up -d
+#
+# Prerequisites:
+#   - Set CLOUDFLARE_TUNNEL_TOKEN in .env (see cloudflare/CLOUDFLARE_SETUP.md)
+#   - Build and push image: docker build -t ghcr.io/assafmashiah/team-agents:latest .
+#     then: docker push ghcr.io/assafmashiah/team-agents:latest
+# =============================================================================
+
+services:
+
+  openclaw-gateway:
+    image: ghcr.io/assafmashiah/team-agents:latest
+    container_name: openclaw-gateway
+    restart: always
+    stdin_open: true
+    tty: true
+    volumes:
+      # Named volumes for persistence on remote host
+      - openclaw-config:/home/node/.openclaw
+      - openclaw-workspace:/home/node/.openclaw/workspace
+      # Skills are baked into the image for deployed builds
+      # To update skills: rebuild and push the image, then restart
+    expose:
+      - "18789"  # Internal only — Cloudflare Tunnel handles external access
+    environment:
+      NODE_ENV: production
+      OPENCLAW_SKIP_SERVICE_CHECK: "true"
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN:-}
+      DISCORD_GUILD_ID: ${DISCORD_GUILD_ID:-}
+      DISCORD_CHANNEL_ALLOWLIST: ${DISCORD_CHANNEL_ALLOWLIST:-}
+      SIGNAL_PHONE_NUMBER: ${SIGNAL_PHONE_NUMBER:-}
+      # Point to your home server or a hosted Ollama instance
+      OLLAMA_HOST: ${REMOTE_OLLAMA_HOST:-}
+    command: ["gateway"]
+
+  openclaw-socat:
+    image: alpine/socat
+    container_name: openclaw-socat
+    restart: always
+    network_mode: "service:openclaw-gateway"
+    command: "TCP-LISTEN:18790,fork,bind=0.0.0.0,reuseaddr TCP:127.0.0.1:18789"
+    depends_on:
+      - openclaw-gateway
+
+  # ---------------------------------------------------------------------------
+  # Cloudflare Tunnel — zero-config secure tunnel, no inbound ports needed
+  # ---------------------------------------------------------------------------
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: openclaw-cloudflared
+    restart: always
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - openclaw-gateway
+
+volumes:
+  openclaw-config:
+    name: openclaw-config
+  openclaw-workspace:
+    name: openclaw-workspace

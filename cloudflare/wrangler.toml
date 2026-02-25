@@ -1,0 +1,31 @@
+# =============================================================================
+# Cloudflare Tunnel Configuration
+# =============================================================================
+# This config exposes your locally-running OpenClaw gateway securely via
+# a Cloudflare Tunnel — no open inbound ports needed.
+#
+# Setup:
+#   1. Install cloudflared: brew install cloudflare/cloudflare/cloudflared
+#   2. Login:               cloudflared tunnel login
+#   3. Create tunnel:       cloudflared tunnel create team-agents
+#   4. Copy tunnel UUID into TUNNEL_ID below
+#   5. Add DNS:             cloudflared tunnel route dns team-agents openclaw.yourdomain.com
+#   6. Set CLOUDFLARE_TUNNEL_TOKEN in .env
+#   7. Start stack:         docker compose -f docker-compose.cloudflare.yml up -d
+# =============================================================================
+
+tunnel: REPLACE_WITH_YOUR_TUNNEL_ID
+credentials-file: ~/.cloudflared/REPLACE_WITH_YOUR_TUNNEL_ID.json
+
+ingress:
+  # Main OpenClaw Control UI + API
+  - hostname: openclaw.yourdomain.com
+    service: http://localhost:18789
+
+  # Optional: expose Ollama remotely so other devices (or CF deployments) can use it.
+  # IMPORTANT: Protect this with Cloudflare Access before enabling!
+  # - hostname: ollama.yourdomain.com
+  #   service: http://localhost:11434
+
+  # Catch-all (required by cloudflared)
+  - service: http_status:404

@@ -1,0 +1,25 @@
+# Environment secrets - NEVER commit these
+.env
+*.env.local
+
+# OpenClaw runtime state (lives on host, not in repo)
+.openclaw/
+workspace/
+
+# Docker generated
+docker-compose.override.yml
+
+# Node
+node_modules/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Editors
+.vscode/
+.idea/
+*.swp
