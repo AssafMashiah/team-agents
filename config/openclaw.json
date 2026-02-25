@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.2.23",
+    "lastTouchedAt": "2026-02-24T12:40:27.774Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-02-24T12:40:27.725Z",
+    "lastRunVersion": "2026.2.23",
+    "lastRunCommand": "onboard",
+    "lastRunMode": "local"
+  },
+  "auth": {
+    "profiles": {
+      "cloudflare-ai-gateway:default": {
+        "provider": "cloudflare-ai-gateway",
+        "mode": "api_key"
+      },
+      "anthropic:default": {
+        "provider": "anthropic",
+        "mode": "token"
+      },
+      "anthropic:vi-claude": {
+        "provider": "anthropic",
+        "mode": "token"
+      }
+    },
+    "order": {
+      "anthropic": [
+        "anthropic:default",
+        "anthropic:vi-claude"
+      ]
+    }
+  },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "cloudflare-ai-gateway": {
+        "baseUrl": "https://gateway.ai.cloudflare.com/v1/YOUR_CF_ACCOUNT_ID/jade-gateway/anthropic",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "claude-sonnet-4-5",
+            "name": "Claude Sonnet 4.5",
+            "reasoning": true,
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 3,
+              "output": 15,
+              "cacheRead": 0.3,
+              "cacheWrite": 3.75
+            },
+            "contextWindow": 200000,
+            "maxTokens": 64000
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-sonnet-4-6"
+      },
+      "models": {
+        "cloudflare-ai-gateway/claude-sonnet-4-5": {
+          "alias": "Cloudflare AI Gateway"
+        }
+      },
+      "workspace": "/Users/mashiah/Documents/thrallboy/jade",
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "1h"
+      },
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "heartbeat": {
+        "every": "30m"
+      },
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    },
+    "list": [
+      {
+        "id": "jade"
+      }
+    ]
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "channels": {
+    "discord": {
+      "enabled": true,
+      "token": "YOUR_DISCORD_BOT_TOKEN",
+      "groupPolicy": "open",
+      "streaming": "off",
+      "guilds": {}
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "YOUR_OPENCLAW_GATEWAY_TOKEN"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    }
+  },
+  "skills": {
+    "entries": {
+      "nano-banana-pro": {
+        "apiKey": "YOUR_GOOGLE_API_KEY"
+      },
+      "openai-image-gen": {
+        "apiKey": "YOUR_OPENAI_API_KEY"
+      }
+    }
+  },
+  "plugins": {
+    "entries": {
+      "discord": {
+        "enabled": true
+      }
+    }
+  }
+}
