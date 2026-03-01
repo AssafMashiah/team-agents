@@ -1,0 +1,20 @@
+{
+  "palette": {
+    "primary": "#2563EB",
+    "secondary": "#1E40AF",
+    "accent": "#F59E0B",
+    "background": "#FFFFFF",
+    "surface": "#F1F5F9",
+    "text": "#1E293B",
+    "textLight": "#64748B"
+  },
+  "fonts": {
+    "heading": "Inter",
+    "body": "Inter",
+    "code": "Fira Code"
+  },
+  "mood": "clean and professional",
+  "imageStyle": "flat illustration, minimal, soft gradients, corporate style",
+  "customCSS": "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap');\n.slidev-layout { font-family: 'Inter', sans-serif; }\n.slidev-layout h1, .slidev-layout h2 { color: #2563EB; font-weight: 700; }\n.slidev-layout code { font-family: 'Fira Code', monospace; }",
+  "slides": []
+}
