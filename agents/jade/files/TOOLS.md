@@ -2,15 +2,6 @@
 
 Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
 
-## Slides
-
-- **Location:** `/home/thrallboy/projects/slides/`
-- **Live at:** `https://slides.thrallboy.com/<deck-name>/`
-- **Structure:** Each deck is a folder with `slides.md`, `data.md`, `design-system.json`, `package.json`, `public/`
-- **Stack:** Slidev — built via `build.js`, deployed to Cloudflare Pages via GitHub Actions on push to `main`
-- **Repo:** `https://github.com/AssafMashiah/slides`
-- **To add a deck:** Create folder under `/home/thrallboy/projects/slides/<deck-name>/`, commit + push → auto-deploys
-
 ## What Goes Here
 
 Things like:
@@ -57,5 +48,3 @@ To request a commit/push, use:
 ```
 sessions_send(agentId="devops", message="Please commit [describe changes] to [repo].")
 ```
-
-See `workspace-devops/GITHUB_PROTOCOL.md` for full protocol.

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iran's Missile Arsenal</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+    .slide {
+      width: 100%;
+      max-width: 1100px;
+      background: #161b22;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .header {
+      background: linear-gradient(135deg, #b22222 0%, #8b0000 100%);
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .flag { font-size: 48px; }
+    .header-text h1 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .header-text p {
+      font-size: 14px;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+    .body { padding: 36px 48px; }
+    .intro {
+      font-size: 14px;
+      color: #8b949e;
+      margin-bottom: 28px;
+      line-height: 1.6;
+      border-left: 3px solid #b22222;
+      padding-left: 14px;
+    }
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .category {
+      background: #1c2128;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #30363d;
+    }
+    .category-header {
+      padding: 12px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .cat-srbm .category-header { background: #1f4068; color: #58a6ff; }
+    .cat-mrbm .category-header { background: #3d1f00; color: #f0883e; }
+    .cat-cruise .category-header { background: #1b3a1b; color: #3fb950; }
+    .cat-anti .category-header { background: #2d1b69; color: #a371f7; }
+    .missile-list { padding: 12px 0; }
+    .missile-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 18px;
+      border-bottom: 1px solid #21262d;
+      transition: background 0.15s;
+    }
+    .missile-item:last-child { border-bottom: none; }
+    .missile-item:hover { background: #21262d; }
+    .missile-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+    .missile-meta {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .range {
+      font-size: 12px;
+      color: #8b949e;
+    }
+    .badge {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .operational { background: #1b4721; color: #3fb950; }
+    .development { background: #2d1b00; color: #d29922; }
+    .footer {
+      padding: 18px 48px;
+      border-top: 1px solid #21262d;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #484f58;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="header">
+      <div class="flag">🇮🇷</div>
+      <div class="header-text">
+        <h1>Iran's Missile Arsenal</h1>
+        <p>Overview of ballistic, cruise, and anti-ship missiles — largest and most diverse in the Middle East</p>
+      </div>
+    </div>
+
+    <div class="body">
+      <p class="intro">
+        Iran possesses thousands of ballistic and cruise missiles, some capable of striking as far as Israel and southeast Europe.
+        The IRGC Aerospace Force oversees the program, which spans short-range battlefield systems to medium-range strategic deterrents.
+        Source: CSIS Missile Threat / Center for Strategic and International Studies
+      </p>
+
+      <div class="categories">
+
+        <!-- SRBM -->
+        <div class="category cat-srbm">
+          <div class="category-header">⚡ Short-Range Ballistic (SRBM)</div>
+          <div class="missile-list">
+            <div class="missile-item">
+              <span class="missile-name">Shahab-1</span>
+              <div class="missile-meta"><span class="range">285–330 km</span><span class="badge operational">Operational</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Shahab-2</span>
+              <div class="missile-meta"><span class="range">500 km</span><span class="badge operational">Operational</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Fateh-110</span>
+              <div class="missile-meta"><span class="range">200–300 km</span><span class="badge operational">Operational</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Fateh-313</span>
+              <div class="missile-meta"><span class="range">500 km</span><span class="badge operational">Operational</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Qiam-1</span>
+              <div class="missile-meta"><span class="range">700–800 km</span><span class="badge operational">Operational</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Zolfaghar</span>
+              <div class="missile-meta"><span class="range">700 km</span><span class="badge operational">Operational</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Tondar-69</span>
+              <div class="missile-meta"><span class="range">150 km</span><span class="badge operational">Operational</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MRBM -->
+        <div class="category cat-mrbm">
+          <div class="category-header">🎯 Medium-Range Ballistic (MRBM)</div>
+          <div class="missile-list">
+            <div class="missile-item">
+              <span class="missile-name">Shahab-3</span>
+              <div class="missile-meta"><span class="range">1,300 km</span><span class="badge operational">Operational</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Sejjil</span>
+              <div class="missile-meta"><span class="range">2,000 km</span><span class="badge operational">Operational</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Emad (Shahab-3 variant)</span>
+              <div class="missile-meta"><span class="range">1,700 km</span><span class="badge development">In Dev</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Ghadr-1 (Shahab-3 variant)</span>
+              <div class="missile-meta"><span class="range">1,950 km</span><span class="badge development">In Dev</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Khorramshahr</span>
+              <div class="missile-meta"><span class="range">2,000 km</span><span class="badge development">In Dev</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cruise -->
+        <div class="category cat-cruise">
+          <div class="category-header">💨 Cruise Missiles</div>
+          <div class="missile-list">
+            <div class="missile-item">
+              <span class="missile-name">Soumar</span>
+              <div class="missile-meta"><span class="range">2,000–3,000 km</span><span class="badge operational">Operational</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Ya-Ali</span>
+              <div class="missile-meta"><span class="range">700 km</span><span class="badge operational">Operational</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Anti-Ship -->
+        <div class="category cat-anti">
+          <div class="category-header">🚢 Anti-Ship / Space Launch</div>
+          <div class="missile-list">
+            <div class="missile-item">
+              <span class="missile-name">Ra'ad</span>
+              <div class="missile-meta"><span class="range">350 km</span><span class="badge operational">Operational</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Safir (SLV)</span>
+              <div class="missile-meta"><span class="range">350 km alt.</span><span class="badge operational">Operational</span></div>
+            </div>
+            <div class="missile-item">
+              <span class="missile-name">Simorgh (SLV)</span>
+              <div class="missile-meta"><span class="range">500 km alt.</span><span class="badge development">In Dev</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Data: CSIS Missile Threat · missilethreat.csis.org</span>
+      <span>SRBM = Short-Range · MRBM = Medium-Range · SLV = Space Launch Vehicle</span>
+    </div>
+  </div>
+</body>
+</html>

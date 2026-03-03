@@ -47,3 +47,8 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 ---
 
 Add whatever helps you do your job. This is your cheat sheet.
+
+## GitHub
+
+All GitHub operations are handled by the **DevOps agent** (id: `devops`).
+Delegate via `sessions_send(agentId='devops', message='...')`.

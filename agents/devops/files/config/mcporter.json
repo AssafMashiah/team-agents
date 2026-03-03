@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "context7": {
+      "baseUrl": "https://mcp.context7.com/mcp"
+    },
+    "cloudflare-docs": {
+      "baseUrl": "https://docs.mcp.cloudflare.com/mcp"
+    },
+    "cloudflare-dns": {
+      "baseUrl": "https://dns-analytics.mcp.cloudflare.com/mcp"
+    },
+    "cloudflare-audit": {
+      "baseUrl": "https://auditlogs.mcp.cloudflare.com/mcp"
+    },
+    "cloudflare-tunnel": {
+      "baseUrl": "https://builds.mcp.cloudflare.com/mcp"
+    }
+  },
+  "imports": []
+}
