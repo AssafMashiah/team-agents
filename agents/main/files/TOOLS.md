@@ -52,3 +52,10 @@ Add whatever helps you do your job. This is your cheat sheet.
 
 All GitHub operations are handled by the **DevOps agent** (id: `devops`).
 Delegate via `sessions_send(agentId='devops', message='...')`.
+
+## MCP Memory
+
+- **Server:** `memory` (system-wide, `~/.mcporter/mcporter.json`)
+- **URL:** `https://my-memory.thrallboy.workers.dev/e6ae909b-7756-441b-9395-d6d8c0c6d093/sse`
+- **Tools:** `mcporter call memory.addToMCPMemory thingToRemember="..."` / `mcporter call memory.searchMCPMemory informationToGet="..."`
+- **Purpose:** Persistent shared memory across all agents — search at session start, write on significant events
