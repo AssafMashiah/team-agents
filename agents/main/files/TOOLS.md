@@ -48,6 +48,10 @@ Skills are shared. Your setup is yours. Keeping them apart means you can update 
 
 Add whatever helps you do your job. This is your cheat sheet.
 
+## Telegram
+
+- **Claude Code bot token:** `8667080583:AAE2SncKocm2iXBBKYKbD6kDDQIoi6TtUzc`
+
 ## GitHub
 
 All GitHub operations are handled by the **DevOps agent** (id: `devops`).
